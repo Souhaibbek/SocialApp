@@ -1,10 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:socialapp/models/usermodel.dart';
+import 'package:socialapp/modules/chat_details.dart';
 import 'package:socialapp/modules/socialcubit/socubit.dart';
 import 'package:socialapp/modules/socialcubit/sostates.dart';
+import 'package:socialapp/shared/components/components.dart';
 
 class ChatsScreen extends StatelessWidget {
   const ChatsScreen({Key? key}) : super(key: key);
@@ -35,7 +36,7 @@ class ChatsScreen extends StatelessWidget {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              userListBuilder(SocialCubit.get(context).users[index]),
+                              userListBuilder(SocialCubit.get(context).users[index],context),
                             ],
                           );
                         },
@@ -62,15 +63,17 @@ class ChatsScreen extends StatelessWidget {
   }
 }
 
-Widget userListBuilder(SocialUserModel? userModel) => InkWell(
-      onTap: () {},
+Widget userListBuilder(SocialUserModel userModel,context) => InkWell(
+      onTap: () {
+        navigateTo(context, ChatDetailsScreen(socialUserModel: userModel));
+      },
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(
           children: [
             CircleAvatar(
               radius: 20.0,
-              backgroundImage: NetworkImage(userModel!.image),
+              backgroundImage: NetworkImage(userModel.image),
             ),
             SizedBox(
               width: 10.0,
